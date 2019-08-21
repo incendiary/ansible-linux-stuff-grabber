@@ -1,0 +1,22 @@
+---
+
+- name: set this working directory fact linux-exploit-suggester-2
+  set_fact:
+    thisworkingdirectory: "{{workingdirectory}}/LinEnum"
+
+
+- name: Creates working directory LinEnum
+  file: path="{{thisworkingdirectory}}" state=directory
+
+- name: Transfer Linenum
+  copy:
+    src: LinEnum/LinEnum.sh
+    dest: "{{thisworkingdirectory}}/LinEnum.sh"
+
+- name: make Linenum executable
+  file:
+    path: "{{thisworkingdirectory}}/LinEnum.sh"
+    mode: u=rwx
+
+- name: execute LinEnum
+  shell: "{{thisworkingdirectory}}/LinEnum.sh -e {{thisworkingdirectory}}/results -r {{clientname}}"

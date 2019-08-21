@@ -1,0 +1,11 @@
+---
+
+- hosts: targets
+  roles:
+    - role: common-init
+    - role: Lazagne
+    - role: LinEnum
+    - role: linuxprivchecker
+    - role: upc
+    - role: linux-exploit-suggester-2
+    - role: common-end

@@ -1,0 +1,17 @@
+---
+- name: set user-specific variables
+  include_vars: '{{ item }}'
+  with_first_found:
+    - "Project.yml"
+
+- name: set working directory fact
+  set_fact:
+    workingdirectory: "/tmp/GDS-{{yourusername}}"
+
+- name: Tidy Up
+  file:
+    path: '{{workingdirectory}}'
+    state: absent
+
+- name: Creates overall working directory
+  file: path='{{workingdirectory}}' state=directory

@@ -1,0 +1,35 @@
+---
+
+- name: set this working directory fact
+  set_fact:
+    thisworkingdirectory: "{{workingdirectory}}/LaZagne"
+
+- debug:
+    msg: "System {{ inventory_hostname }} has ansible_architecture {{ ansible_architecture }}"
+
+- name: Creates working directory
+  file:
+    state: directory
+    path: "{{thisworkingdirectory}}"
+
+- name: Transfer 32 bit LaZagnea's
+  copy:
+    src: "Linux-32bits/LaZagne-32bits"
+    dest: "{{thisworkingdirectory}}/"
+
+- name: make LaZagnea executable
+  file:
+    path: "{{thisworkingdirectory}}/LaZagne-32bits"
+    mode: u=rwx
+
+-  name: execute LaZagnea
+   shell: "{{thisworkingdirectory}}/LaZagne-32bits all> {{thisworkingdirectory}}/results"
+   ignore_errors: yes
+   when:
+     - ansible_architecture == "i386"
+
+
+-  name: remove LaZagnea to save space
+   file:
+     path: "{{thisworkingdirectory}}/LaZagne-64bits"
+     state: absent

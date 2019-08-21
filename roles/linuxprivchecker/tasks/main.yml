@@ -1,0 +1,31 @@
+---
+
+- name: "Re-run setup to use custom facts"
+  setup: ~
+
+- name: set this working directory fact
+  set_fact:
+    thisworkingdirectory: "{{workingdirectory}}/linuxprivchecker"
+
+- debug:
+    msg: "custom vars {{ hostvars.host.ansible_local.env }} | {{ hostvars.host.ansible_local.current_repo }} | {{ hostvars.host.ansible_local.tags }} |  {{ hostvars.host.ansible_local.needs_reboot }} |  {{ hostvars.host.ansible_local.patch_report_date }} | |  {{ hostvars.host.ansible_local.pending_updates }} |"
+    ignore_errors: yes
+
+- name: Creates working directory
+  file:
+    state: directory
+    path: "{{thisworkingdirectory}}"
+
+- name: Transfer linuxprivchecker
+  copy:
+    src: linuxprivchecker.py
+    dest: "{{thisworkingdirectory}}/linuxprivchecker.py"
+
+- name: make linuxprivchecker executable
+  file:
+    path: "{{thisworkingdirectory}}/linuxprivchecker.py"
+    mode: u=rwx
+
+- name: execute linuxprivchecker
+  shell: "python {{thisworkingdirectory}}/linuxprivchecker.py > {{thisworkingdirectory}}/results"
+  ignore_errors: yes

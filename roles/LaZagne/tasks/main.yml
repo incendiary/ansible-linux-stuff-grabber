@@ -1,0 +1,23 @@
+---
+
+- name: set this working directory fact
+  set_fact:
+    thisworkingdirectory: "{{workingdirectory}}/LaZagne"
+
+- debug:
+    msg: "System {{ inventory_hostname }} has ansible_architecture {{ ansible_architecture }}"
+
+- name: Creates working directory
+  file:
+    state: directory
+    path: "{{thisworkingdirectory}}"
+
+
+- include: 32bit.yml
+  when:
+    - ansible_architecture == "i386"
+
+
+- include: 64bit.yml
+  when:
+    - ansible_architecture == "x86_64"

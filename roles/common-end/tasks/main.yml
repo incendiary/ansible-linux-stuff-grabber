@@ -1,0 +1,25 @@
+---
+
+- name: compress results
+  archive:
+    path: '{{workingdirectory}}'
+    dest: "{{workingdirectory}}.tgz"
+
+- name: Transfer files back
+  fetch:
+    src: "{{workingdirectory}}.tgz"
+    dest: returned
+
+- name: Make my directory tree readable
+  file:
+    path: "/tmp/GDS-{{yourusername}}"
+    mode: u=rwX,g=rX,o=rX
+    recurse: yes
+
+- name: Tidy Up
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{workingdirectory}}"
+    - "{{workingdirectory}}.tgz"

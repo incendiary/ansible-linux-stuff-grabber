@@ -1,0 +1,47 @@
+---
+
+
+
+- name: Creates working directory
+  file:
+    state: directory
+    path: "{{workingdirectory}}/{{ item }}"
+  with_items:
+    - upc-inquisb
+    - upc-monkey
+
+- name: Transfer UPC
+  copy:
+    src: "{{ item }}/upc.sh"
+    dest: "{{workingdirectory}}/{{ item }}/upc.sh"
+  with_items:
+    - upc-inquisb
+    - upc-monkey
+
+- name: Transfer UPC 2
+  copy:
+    src: "unix-privesc-check.sh"
+    dest: "{{workingdirectory}}/unix-privesc-check.sh"
+
+- name: make upc executable
+  file:
+    path: "{{workingdirectory}}/{{ item }}/upc.sh"
+    mode: u=rwx
+  with_items:
+    - upc-inquisb
+    - upc-monkey
+
+- name: make upc executable 2
+  file:
+    path: "{{workingdirectory}}/unix-privesc-check.sh"
+    mode: u=rwx
+
+#Commenting this out for now, as i get /tmp/GDS-ajh/upc-monkey/upc.sh: line 22: lib/misc/stdio no such file
+#- name: execute upc
+#  shell: "{{workingdirectory}}/{{ item }}/upc.sh detailed > {{workingdirectory}}/{{ item }}/results"
+#  with_items:
+#    - upc-inquisb
+#    - upc-monkey
+
+- name: execute upc 2
+  shell: "{{workingdirectory}}/unix-privesc-check.sh detailed > {{workingdirectory}}/unix-privesc-check-results"
