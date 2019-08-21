@@ -1,0 +1,12 @@
+[submodule "roles/LinEnum/files/LinEnum"]
+	path = roles/LinEnum/files/LinEnum
+	url = https://github.com/rebootuser/LinEnum
+[submodule "roles/linux-exploit-suggester-2/files/linux-exploit-suggester-2"]
+	path = roles/linux-exploit-suggester-2/files/linux-exploit-suggester-2
+	url = https://github.com/jondonas/linux-exploit-suggester-2
+[submodule "roles/upc/files/upc-monkey"]
+	path = roles/upc/files/upc-monkey
+	url = https://github.com/pentestmonkey/unix-privesc-check/
+[submodule "roles/upc/files/upc-inquisb"]
+	path = roles/upc/files/upc-inquisb
+	url = https://github.com/inquisb/unix-privesc-check/
